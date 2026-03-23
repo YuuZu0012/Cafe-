@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales List</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<script src="/js/jquery-3.4.1.slim.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/css/all.css">
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #fff7fb 0%, #fffdf9 100%);
+            font-family: Arial, sans-serif;
+            color: #6f5863;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at top left, rgba(255, 214, 230, 0.35), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(220, 240, 255, 0.28), transparent 30%);
+            z-index: -1;
+        }
+
+        .sales-page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 34px 18px 60px;
+        }
+
+        .hero-box {
+            background: linear-gradient(135deg, rgba(255, 240, 246, 0.95), rgba(234, 246, 255, 0.95), rgba(255, 247, 239, 0.95));
+            border-radius: 34px;
+            padding: 30px 24px;
+            text-align: center;
+            box-shadow: 0 18px 35px rgba(210, 170, 188, 0.18);
+            margin-bottom: 28px;
+        }
+
+        .hero-title {
+            margin: 0;
+            color: #7f5b71;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .hero-subtitle {
+            margin: 10px 0 0;
+            color: #9a7283;
+        }
+
+        .top-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 26px;
+        }
+
+        .cute-btn {
+            display: inline-block;
+            text-decoration: none;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 20px;
+            font-weight: bold;
+            transition: 0.25s ease;
+            box-shadow: 0 10px 22px rgba(210, 170, 188, 0.18);
+        }
+
+        .btn-pink {
+            background: linear-gradient(135deg, #ffb6c9, #ffc9a9);
+            color: white;
+        }
+
+        .btn-pink:hover {
+            color: white;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+
+        .btn-blue {
+            background: linear-gradient(135deg, #b8e3ff, #d6f3ff);
+            color: #5f7898;
+        }
+
+        .btn-blue:hover {
+            color: #476885;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+
+        .orders-wrap {
+            display: grid;
+            gap: 18px;
+        }
+
+        .order-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 28px;
+            box-shadow: 0 14px 32px rgba(210, 170, 188, 0.14);
+            padding: 22px;
+            transition: 0.25s ease;
+        }
+
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 36px rgba(210, 170, 188, 0.18);
+        }
+
+        .order-summary {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr auto;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .summary-block {
+            background: linear-gradient(135deg, #fff5f9, #f5fbff);
+            border: 1px solid #f7dbe4;
+            border-radius: 18px;
+            padding: 12px 14px;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: #9a7283;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .summary-value {
+            color: #6b5660;
+            font-weight: bold;
+        }
+
+        .order-id {
+            color: #7f5b71;
+            font-size: 1.05rem;
+            font-weight: bold;
+        }
+
+        .final-total {
+            color: #ff84a5;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .toggle-btn {
+            background: linear-gradient(135deg, #ffdce8, #e7f4ff);
+            border: none;
+            color: #6d6070;
+            border-radius: 999px;
+            padding: 11px 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .order-details {
+            display: none;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px dashed #f2d6e1;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 18px;
+        }
+
+        .detail-box {
+            background: #fffafd;
+            border: 1px solid #f3dce5;
+            border-radius: 22px;
+            padding: 16px;
+        }
+
+        .detail-title {
+            color: #7f5b71;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .item-list li {
+            background: linear-gradient(135deg, #fff7fb, #f4fbff);
+            border: 1px solid #eef2fa;
+            border-radius: 16px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            color: #6f5863;
+            line-height: 1.6;
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: #6a5360;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px dashed #ead7e0;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #8c6a7b;
+            font-weight: bold;
+        }
+
+        .detail-value {
+            color: #5f7898;
+            text-align: right;
+        }
+
+        .empty-state {
+            background: rgba(255,255,255,0.9);
+            border: 1px dashed #f0d6e0;
+            border-radius: 28px;
+            padding: 40px 24px;
+            text-align: center;
+            color: #9a7283;
+            box-shadow: 0 14px 28px rgba(210, 170, 188, 0.12);
+        }
+
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            opacity: 0.75;
+        }
+
+        @media (max-width: 900px) {
+            .order-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include('../navbar.ejs') %>
+
+    <div class="sales-page">
+        <div class="hero-box">
+            <h1 class="hero-title">🧁 Sales List</h1>
+            <p class="hero-subtitle">สรุปรายการขายแบบนุ่มนิ่ม กดดูรายละเอียดออเดอร์ได้ทีละใบ</p>
+        </div>
+
+        <div class="top-actions">
+            <a href="/sales/new" class="cute-btn btn-pink">➕ เพิ่มออเดอร์ใหม่</a>
+            <a href="/" class="cute-btn btn-blue">กลับหน้าแรก</a>
+        </div>
+
+        <% if (orders && orders.length > 0) { %>
+            <div class="orders-wrap">
+                <% orders.forEach((order, index) => { %>
+                    <div class="order-card">
+                        <div class="order-summary">
+                            <div class="summary-block">
+                                <div class="summary-label">เลขออเดอร์</div>
+                                <div class="summary-value order-id"><%= order.orderId %></div>
+                            </div>
+
+                            <div class="summary-block">
+                                <div class="summary-label">สมาชิก</div>
+                                <div class="summary-value">
+                                    <%= order.member ? order.member.name : "ไม่พบสมาชิก" %>
+                                </div>
+                            </div>
+
+                            <div class="summary-block">
+                                <div class="summary-label">ยอดสุทธิ</div>
+                                <div class="summary-value final-total">฿<%= Number(order.finalTotal).toFixed(2) %></div>
+                            </div>
+
+                            <div>
+                                <button type="button" class="toggle-btn" onclick="toggleDetails('detail-<%= index %>', this)">
+                                    ดูรายละเอียด
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="order-details" id="detail-<%= index %>">
+                            <div class="detail-grid">
+                                <div class="detail-box">
+                                    <div class="detail-title">รายการเมนูในออเดอร์</div>
+                                    <ul class="item-list">
+                                        <% order.items.forEach(item => { %>
+                                            <li>
+                                                <span class="item-name">
+                                                    <%= item.product ? item.product.name : "ไม่พบสินค้า" %>
+                                                </span>
+                                                <br>
+                                                จำนวน <strong><%= item.quantity %></strong>
+                                                — รวมย่อย ฿<%= Number(item.totalPrice).toFixed(2) %>
+                                            </li>
+                                        <% }) %>
+                                    </ul>
+                                </div>
+
+                                <div class="detail-box">
+                                    <div class="detail-title">สรุปรายละเอียดออเดอร์</div>
+
+                                    <div class="detail-row">
+                                        <span class="detail-label">ประเภทส่วนลด</span>
+                                        <span class="detail-value"><%= order.discountType %></span>
+                                    </div>
+
+                                    <div class="detail-row">
+                                        <span class="detail-label">มูลค่าส่วนลด</span>
+                                        <span class="detail-value"><%= order.discountValue %></span>
+                                    </div>
+
+                                    <div class="detail-row">
+                                        <span class="detail-label">วันที่</span>
+                                        <span class="detail-value"><%= new Date(order.date).toDateString() %></span>
+                                    </div>
+
+                                    <div class="detail-row">
+                                        <span class="detail-label">จำนวนเมนูในบิล</span>
+                                        <span class="detail-value"><%= order.items.length %> รายการ</span>
+                                    </div>
+
+                                    <div class="detail-row">
+                                        <span class="detail-label">ยอดสุทธิ</span>
+                                        <span class="detail-value"><strong>฿<%= Number(order.finalTotal).toFixed(2) %></strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <div class="empty-state">
+                <div class="icon">🫧</div>
+                <div>ยังไม่มีรายการขายในระบบ</div>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        function toggleDetails(id, button) {
+            const box = document.getElementById(id);
+            if (!box) return;
+
+            if (box.style.display === "block") {
+                box.style.display = "none";
+                button.textContent = "ดูรายละเอียด";
+            } else {
+                box.style.display = "block";
+                button.textContent = "ซ่อนรายละเอียด";
+            }
+        }
+    </script>
+</body>
+</html>

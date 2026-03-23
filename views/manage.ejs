@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        crossorigin="anonymous" />
+    <script src="/js/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="/js/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+        crossorigin="anonymous" />
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #fff7fb 0%, #fffdf9 100%);
+            font-family: Arial, sans-serif;
+            color: #6f5863;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at top left, rgba(255, 214, 230, 0.35), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(220, 240, 255, 0.28), transparent 30%);
+            z-index: -1;
+        }
+
+        .manage-wrap {
+            padding: 35px 0 50px;
+        }
+
+        .manage-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 30px;
+            box-shadow: 0 18px 35px rgba(210, 170, 188, 0.18);
+            overflow: hidden;
+            padding: 28px;
+        }
+
+        .manage-header {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .manage-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #7f5b71;
+            margin-bottom: 8px;
+        }
+
+        .manage-subtitle {
+            color: #9a7283;
+            margin-bottom: 0;
+        }
+
+        .search-box {
+            background: linear-gradient(135deg, #fff1f7, #eef8ff);
+            border: 1px solid #f7d2df;
+            border-radius: 22px;
+            padding: 14px;
+            margin-bottom: 22px;
+            box-shadow: inset 0 2px 8px rgba(255, 227, 236, 0.18);
+        }
+
+        .search-box input {
+            border-radius: 999px;
+            border: 1px solid #f3cad8;
+            padding: 12px 16px;
+            background: #fffafd;
+        }
+
+        .search-box input:focus {
+            border-color: #ffbfd0;
+            box-shadow: 0 0 0 4px rgba(255, 182, 193, 0.18);
+        }
+
+        .cute-table-wrap {
+            overflow-x: auto;
+            border-radius: 24px;
+            box-shadow: 0 12px 28px rgba(210, 170, 188, 0.12);
+        }
+
+        .cute-table {
+            width: 100%;
+            margin: 0;
+            background: white;
+            border-collapse: collapse;
+            overflow: hidden;
+        }
+
+        .cute-table thead th {
+            background: linear-gradient(135deg, #ffdce8, #e7f4ff, #fff0df);
+            color: #7f5b71;
+            border: none;
+            text-align: center;
+            padding: 16px 12px;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        .cute-table td {
+            vertical-align: middle;
+            text-align: center;
+            padding: 16px 12px;
+            border-top: 1px solid #f8e4eb;
+            color: #6f5863;
+            background: rgba(255,255,255,0.95);
+        }
+
+        .cute-table tbody tr:nth-child(even) td {
+            background: #fffafd;
+        }
+
+        .cute-table tbody tr:hover td {
+            background: #fff2f7;
+            transition: 0.2s ease;
+        }
+
+        .name-cell,
+        .price-cell,
+        .description-cell {
+            white-space: normal;
+            min-width: 120px;
+        }
+
+        .description-cell {
+            max-width: 280px;
+            line-height: 1.6;
+        }
+
+        .product-thumb {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 8px 18px rgba(200, 158, 176, 0.18);
+            background: linear-gradient(135deg, #ffe5ef, #fff1e6);
+            padding: 6px;
+        }
+
+        .btn-cute-danger {
+            background: linear-gradient(135deg, #ff9eb5, #ffb7a3);
+            border: none;
+            color: white;
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-weight: bold;
+            box-shadow: 0 8px 18px rgba(255, 158, 181, 0.22);
+            transition: 0.25s ease;
+        }
+
+        .btn-cute-danger:hover {
+            color: white;
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #ff8da8, #ffa98d);
+        }
+
+        .btn-cute-primary {
+            background: linear-gradient(135deg, #b8e3ff, #ffd6e7);
+            border: none;
+            color: #6d6070;
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-weight: bold;
+            box-shadow: 0 8px 18px rgba(184, 227, 255, 0.22);
+            transition: 0.25s ease;
+        }
+
+        .btn-cute-primary:hover {
+            color: #5d5260;
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #a8dcff, #ffc7dd);
+        }
+
+        .empty-note {
+            text-align: center;
+            color: #a06e82;
+            padding: 20px 0 5px;
+        }
+
+        @media (max-width: 768px) {
+            .manage-card {
+                padding: 18px;
+            }
+
+            .manage-title {
+                font-size: 1.6rem;
+            }
+
+            .product-thumb {
+                width: 85px;
+                height: 85px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('navbar.ejs') %>
+
+    <div class="container manage-wrap">
+        <div class="manage-card">
+            <div class="manage-header">
+                <h2 class="manage-title">🧁 จัดการสินค้า</h2>
+                <p class="manage-subtitle">เพิ่ม ลบ แก้ไขข้อมูลสินค้าในร้านคาเฟ่หวานนุ่มนิ่มของเรา</p>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="searchInput" class="form-control" placeholder="🔍 ค้นหาชื่อสินค้า ราคา หรือรายละเอียด...">
+            </div>
+
+            <div class="cute-table-wrap">
+                <table class="table cute-table">
+                    <thead>
+                        <tr>
+                            <th>ชื่อสินค้า</th>
+                            <th>ราคา</th>
+                            <th>รายละเอียด</th>
+                            <th>รูปภาพ</th>
+                            <th>ลบ</th>
+                            <th>แก้ไข</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="productTable">
+                        <% if (products && Object.values(products).length > 0) { %>
+                            <% Object.values(products).forEach(function(item){ %>
+                                <tr>
+                                    <td class="name name-cell"><%= item.name %></td>
+                                    <td class="price price-cell">฿ <%= item.price %></td>
+                                    <td class="description description-cell"><%= item.description %></td>
+                                    <td>
+                                        <img class="product-thumb"
+                                            src="<%= item.image && item.image.startsWith('http') ? item.image : '/images/products/' + item.image %>"
+                                            alt="<%= item.name %>">
+                                    </td>
+
+                                    <td>
+                                        <a class="btn btn-cute-danger"
+                                           href="/delete/<%= item._id %>"
+                                           onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่')">
+                                           ลบ
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        <form action="/edit" method="POST" class="m-0">
+                                            <input type="hidden" value="<%= item._id %>" name="id">
+                                            <button type="submit" class="btn btn-cute-primary">แก้ไข</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6" class="empty-note">ยังไม่มีสินค้าในระบบ</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("searchInput").addEventListener("keyup", function () {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll("#productTable tr");
+
+            rows.forEach(row => {
+                let nameCell = row.querySelector(".name");
+                let priceCell = row.querySelector(".price");
+                let descCell = row.querySelector(".description");
+
+                if (!nameCell || !priceCell || !descCell) return;
+
+                let name = nameCell.textContent.toLowerCase();
+                let price = priceCell.textContent.toLowerCase();
+                let description = descCell.textContent.toLowerCase();
+
+                if (name.includes(filter) || price.includes(filter) || description.includes(filter)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

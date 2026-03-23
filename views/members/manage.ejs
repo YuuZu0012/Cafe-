@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.4.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/all.css">
+</head>
+
+<body>
+
+
+<%- include('../navbar.ejs') %>
+
+<div class="container">
+    <h2>จัดการสมาชิก</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ชื่อ</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>จัดการ</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% members.forEach(member => { %>
+            <tr>
+                <td><%= member.name %></td>
+                <td><%= member.email %></td>
+                <td><%= member.phone %></td>
+                <td>
+                    <a href="/members/edit/<%= member._id %>" 
+                       class="btn btn-warning btn-sm">แก้ไข</a>
+
+                    <a href="/members/delete/<%= member._id %>" 
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('ต้องการลบสมาชิกนี้หรือไม่?')">
+                       ลบ
+                    </a>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

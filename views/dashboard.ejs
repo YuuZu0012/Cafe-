@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/bootstrap.min.js"></script>
+    <script>
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 5000); // ✅ 5 วินาทีแล้วเปลี่ยนหน้า
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Welcome, <%= user.email %>!</h2>
+        <p>Redirecting to Home in 5 seconds...</p>
+    </div>
+    <% if (message) { %>
+  <script>
+    alert("<%= message %>");
+  </script>
+<% } %>
+</body>
+    
+</html>

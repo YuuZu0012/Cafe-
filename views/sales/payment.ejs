@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #fff7fb 0%, #fffdf9 100%);
+            font-family: Arial, sans-serif;
+            color: #6f5863;
+        }
+
+        .payment-wrap {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 16px;
+        }
+
+        .payment-card {
+            background: rgba(255,255,255,0.96);
+            border-radius: 30px;
+            box-shadow: 0 18px 35px rgba(210,170,188,0.18);
+            padding: 28px;
+        }
+
+        .title {
+            text-align: center;
+            color: #7f5b71;
+            font-weight: bold;
+            margin-bottom: 24px;
+        }
+
+        .box {
+            background: linear-gradient(135deg, #fff5f9, #f5fbff);
+            border: 1px solid #f1d7e3;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .pay-option {
+            border: 1px solid #ecd8e3;
+            border-radius: 18px;
+            padding: 14px;
+            margin-bottom: 12px;
+            background: #fff;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ffb6c9, #ffc9a9);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 999px;
+            padding: 12px 24px;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.95;
+        }
+
+        .bank-select {
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../navbar.ejs') %>
+
+    <div class="payment-wrap">
+        <div class="payment-card">
+            <h2 class="title">💳 ชำระเงิน</h2>
+
+            <div class="box">
+                <strong>สมาชิก:</strong>
+                <%= memberData ? memberData.name : "ไม่พบสมาชิก" %>
+                <br>
+                <strong>ยอดก่อนลด:</strong> ฿<%= Number(order.subtotal).toFixed(2) %>
+                <br>
+                <strong>ส่วนลด:</strong> <%= order.discountType %> / <%= order.discountValue %>
+                <br>
+                <strong>ยอดสุทธิ:</strong> ฿<%= Number(order.finalTotal).toFixed(2) %>
+            </div>
+
+            <form action="/payment/confirm" method="POST">
+                <div class="pay-option">
+                    <label>
+                        <input type="radio" name="paymentMethod" value="QR" checked onclick="toggleBank(false)">
+                        จ่ายด้วย QR Code
+                    </label>
+                    <div style="margin-top:10px;">
+                        <img src="/images/home/pay01.png" alt="QR" style="max-width:220px; border-radius:16px;">
+                    </div>
+                </div>
+
+                <div class="pay-option">
+                    <label>
+                        <input type="radio" name="paymentMethod" value="Bank" onclick="toggleBank(true)">
+                        โอนผ่านธนาคาร
+                    </label>
+
+                    <div id="bankBox" class="bank-select" style="display:none;">
+                        <select name="bankName" class="form-control">
+                            <option value="">-- เลือกธนาคาร --</option>
+                            <option value="KBank">KBank</option>
+                            <option value="SCB">SCB</option>
+                            <option value="Krungthai">Krungthai</option>
+                            <option value="Bangkok Bank">Bangkok Bank</option>
+                            <option value="TTB">TTB</option>
+                            <option value="QR">QR</option>
+                        </select>
+                    </div>
+                </div>
+
+<button type="button" class="submit-btn" onclick="confirmOrder()">ยืนยันการชำระเงิน</button>            </form>
+        </div>
+    </div>
+
+   <script>
+    function toggleBank(show) {
+        document.getElementById("bankBox").style.display = show ? "block" : "none";
+    }
+
+    function confirmOrder() {
+        const ok = confirm("ยืนยันการสั่งซื้อและชำระเงินใช่หรือไม่?");
+        if (ok) {
+            document.querySelector('form[action="/payment/confirm"]').submit();
+        }
+    }
+</script>
+</body>
+</html>

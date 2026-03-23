@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.4.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/all.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #6f5863;
+            background: linear-gradient(180deg, #fff7fb 0%, #fffdf9 45%, #f8fcff 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 12% 18%, rgba(255, 214, 230, 0.30), transparent 22%),
+                radial-gradient(circle at 85% 15%, rgba(210, 236, 255, 0.26), transparent 20%),
+                radial-gradient(circle at 28% 82%, rgba(255, 239, 213, 0.22), transparent 18%);
+            z-index: -2;
+        }
+
+        .floating-cute {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .float-item {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.14;
+            animation: floaty 7s ease-in-out infinite;
+        }
+
+        .f1 { top: 80px; left: 7%; animation-delay: 0s; }
+        .f2 { top: 140px; right: 8%; animation-delay: 1.5s; }
+        .f3 { bottom: 100px; left: 10%; animation-delay: 3s; }
+        .f4 { bottom: 70px; right: 10%; animation-delay: 4.5s; }
+
+        @keyframes floaty {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(6deg); }
+        }
+
+        .wrap {
+            max-width: 1150px;
+            margin: 34px auto;
+            padding: 0 16px 40px;
+        }
+
+        .hero-box {
+            background: linear-gradient(135deg, rgba(255, 240, 246, 0.96), rgba(234, 246, 255, 0.96), rgba(255, 247, 239, 0.96));
+            border-radius: 34px;
+            padding: 30px 24px;
+            text-align: center;
+            box-shadow: 0 18px 34px rgba(210, 170, 188, 0.16);
+            margin-bottom: 24px;
+            border: 1px solid rgba(243, 223, 240, 0.85);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-box::after {
+            content: "sweet report";
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            background: rgba(255, 255, 255, 0.72);
+            color: #b07ea7;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 0.4px;
+        }
+
+        .hero-title {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #8a5c84;
+        }
+
+        .hero-subtitle {
+            margin: 10px 0 0;
+            color: #a07a9e;
+        }
+
+        .card-box {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: 0 14px 30px rgba(213, 179, 210, 0.14);
+            margin-bottom: 20px;
+            border: 1px solid rgba(245, 226, 243, 0.85);
+        }
+
+        .filter-title,
+        .chart-title {
+            color: #8a5c84;
+            font-weight: bold;
+            margin-bottom: 14px;
+        }
+
+        label {
+            color: #8e6d8e;
+            font-weight: bold;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .form-control {
+            border-radius: 18px;
+            border: 1px solid #efd6ea;
+            background: #fffafd;
+            color: #6f5863;
+            padding: 12px 14px;
+            box-shadow: inset 0 2px 6px rgba(255, 225, 235, 0.14);
+        }
+
+        .form-control:focus {
+            background: #fff;
+            color: #6f5863;
+            border-color: #ffbfd0;
+            box-shadow: 0 0 0 4px rgba(255, 182, 193, 0.14);
+        }
+
+        .btn-cute {
+            width: 100%;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 18px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #ffb6c9, #ffc9a9, #b8e3ff);
+            box-shadow: 0 10px 22px rgba(210, 170, 188, 0.18);
+            transition: 0.25s ease;
+        }
+
+        .btn-cute:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #fff6fb, #f5fbff);
+            border: 1px solid #f1dde9;
+            border-radius: 24px;
+            padding: 20px;
+            height: 100%;
+            box-shadow: inset 0 0 18px rgba(255, 240, 246, 0.30);
+            transition: 0.25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-label {
+            color: #9a7291;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .stat {
+            font-size: 1.45rem;
+            font-weight: bold;
+            color: #7f5b71;
+        }
+
+        .chart-shell {
+            background: linear-gradient(135deg, #fffdfd, #fff8fd);
+            border: 1px dashed #efdaef;
+            border-radius: 24px;
+            padding: 18px;
+        }
+
+        .note-box {
+            margin-top: 18px;
+            padding: 14px 16px;
+            background: linear-gradient(135deg, #fff3fb, #f7f1ff);
+            border-left: 5px solid #e6b9dd;
+            border-radius: 18px;
+            color: #9a75a0;
+            font-size: 14px;
+        }
+
+        canvas {
+            max-height: 380px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-cute">
+        <div class="float-item f1">🧁</div>
+        <div class="float-item f2">🍰</div>
+        <div class="float-item f3">🍩</div>
+        <div class="float-item f4">🍪</div>
+    </div>
+
+    <%- include('../navbar.ejs') %>
+
+    <div class="wrap">
+        <div class="hero-box">
+            <h1 class="hero-title">💗 รายงานยอดขายและรายได้</h1>
+            <p class="hero-subtitle">สรุปข้อมูลยอดขายตามช่วงเวลาในโทนหวานละมุนแบบพาสเทล</p>
+        </div>
+
+        <div class="card-box">
+            <h2 class="filter-title">เลือกช่วงเวลาของข้อมูล</h2>
+            <form method="GET" action="/reports/sales" class="row">
+                <div class="col-md-4 mb-3">
+                    <label>วันเริ่มต้น</label>
+                    <input type="date" name="startDate" class="form-control" value="<%= startDate %>">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label>วันสิ้นสุด</label>
+                    <input type="date" name="endDate" class="form-control" value="<%= endDate %>">
+                </div>
+                <div class="col-md-4 d-flex align-items-end mb-3">
+                    <button class="btn-cute">ดูรายงาน</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-label">จำนวนรายการขาย</div>
+                    <div class="stat"><%= totalOrders %></div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-label">รายได้รวม</div>
+                    <div class="stat">฿ <%= Number(totalRevenue).toFixed(2) %></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-box">
+            <div class="chart-shell">
+                <h4 class="chart-title">กราฟรายได้ตามวัน</h4>
+                <canvas id="salesChart"></canvas>
+            </div>
+
+            <div class="note-box">
+                ✨ หน้านี้ใช้ดูภาพรวมรายได้และจำนวนการขายในช่วงเวลาที่เลือก พร้อมกราฟแนวโน้มรายได้แบบดูง่ายและน่ารักขึ้น
+            </div>
+        </div>
+    </div>
+
+    <div id="chart-data"
+         data-labels='<%- JSON.stringify(labels || []) %>'
+         data-values='<%- JSON.stringify(values || []) %>'>
+    </div>
+
+    <script>
+        const chartDataEl = document.getElementById('chart-data');
+        const chartLabels = JSON.parse(chartDataEl.dataset.labels);
+        const chartValues = JSON.parse(chartDataEl.dataset.values);
+
+        const salesCtx = document.getElementById('salesChart');
+
+        new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'รายได้',
+                    data: chartValues,
+                    fill: true,
+                    tension: 0.35,
+                    borderColor: '#ff9fc3',
+                    backgroundColor: 'rgba(184, 227, 255, 0.25)',
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: '#8fdcff',
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                animation: {
+                    duration: 1600
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#7c5d7e',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#8b6f8c'
+                        },
+                        grid: {
+                            color: 'rgba(230, 210, 235, 0.45)'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#8b6f8c'
+                        },
+                        grid: {
+                            color: 'rgba(230, 210, 235, 0.45)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

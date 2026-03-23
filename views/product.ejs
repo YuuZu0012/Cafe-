@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <script src="/js/jquery-3.4.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/all.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <%- include('navbar.ejs') %>
+
+    <div class="container product-page">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <div class="card product-card">
+                    <div class="product-image-wrap">
+                            <img class="product-image"
+                                src="<%= product.image.startsWith('http') ? product.image : '/images/products/' + product.image %>"
+                                 alt="<%= product.name %>" />                    </div>
+
+                    <div class="product-body">
+                        <div class="product-subtitle">Dessert & Cafe Menu</div>
+
+                        <h3 class="product-title"><%= product.name %></h3>
+
+                        <div class="product-price-box">
+                            <div class="product-price-label">ราคาสินค้า</div>
+                            <div class="product-price">฿ <%= product.price %></div>
+                        </div>
+
+                        <div class="product-description">
+                            <strong>รายละเอียดสินค้า</strong>
+                            <p class="mt-2 mb-0"><%= product.description %></p>
+                        </div>
+
+                        <div class="product-note">
+                            ✨ เมนูนี้เหมาะกับสายคาเฟ่หวานละมุน บรรยากาศดี ถ่ายรูปน่ารักสุด ๆ
+                        </div>
+
+                        <div class="mt-4">
+                            <a href="/" class="btn">← กลับหน้าหลัก</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

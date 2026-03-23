@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #fff7fb 0%, #fffdf9 100%);
+            font-family: Arial, sans-serif;
+        }
+
+        .success-wrap {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 16px;
+        }
+
+        .success-card {
+            background: rgba(255,255,255,0.96);
+            border-radius: 30px;
+            box-shadow: 0 18px 35px rgba(210,170,188,0.18);
+            padding: 36px;
+            text-align: center;
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            color: #7f5b71;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .order-id {
+            color: #5f7898;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 18px;
+        }
+
+        .btn-home {
+            background: linear-gradient(135deg, #ffb6c9, #ffc9a9);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .btn-home:hover {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../navbar.ejs') %>
+
+    <div class="success-wrap">
+        <div class="success-card">
+            <div class="icon">🎉</div>
+            <h2 class="title">สั่งซื้อสำเร็จแล้ว</h2>
+            <div class="order-id">เลขออเดอร์: <%= orderId %></div>
+            <p>ระบบได้บันทึกคำสั่งซื้อและรายการขายเรียบร้อยแล้ว</p>
+            <a href="/sales/all" class="btn-home">ดูรายการขาย</a>
+        </div>
+    </div>
+</body>
+</html>

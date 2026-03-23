@@ -1,0 +1,212 @@
+<nav class="navbar navbar-expand-md cute-navbar">
+    <a href="/" class="navbar-brand cute-brand">
+        <img src="/images/home/logo1.png" alt="logo" class="brand-logo">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link cute-link dropdown-toggle"
+                   href="javascript:void(0);"
+                   data-toggle="dropdown"
+                   role="button"
+                   aria-haspopup="true"
+                   aria-expanded="false">
+                    ระบบหลังบ้าน (STORE)
+                </a>
+                <div class="dropdown-menu cute-dropdown">
+                    <a class="dropdown-item" href="/manage">จัดการสินค้า</a>
+                    <a class="dropdown-item" href="/addForm">บันทึกสินค้า</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link cute-link dropdown-toggle"
+                   href="javascript:void(0);"
+                   data-toggle="dropdown"
+                   role="button"
+                   aria-haspopup="true"
+                   aria-expanded="false">
+                    การขาย (SALES)
+                </a>
+                <div class="dropdown-menu cute-dropdown">
+                    <a class="dropdown-item" href="/sales/new">ขายสินค้า</a>
+                    <a class="dropdown-item" href="/sales/all">แสดงรายการขาย</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link cute-link dropdown-toggle"
+                   href="javascript:void(0);"
+                   data-toggle="dropdown"
+                   role="button"
+                   aria-haspopup="true"
+                   aria-expanded="false">
+                    สมาชิก (MEMBER)
+                </a>
+                <div class="dropdown-menu cute-dropdown">
+                    <a class="dropdown-item" href="/register">สมัครสมาชิก</a>
+
+                    <% if (user && user.type === "Admin") { %>
+                        <a class="dropdown-item" href="/members/manage">จัดการสมาชิก</a>
+                        <a class="dropdown-item" href="/members/employee">จัดการพนักงาน</a>
+                    <% } %>
+
+                    <% if (user) { %>
+                        <a class="dropdown-item" href="/members/edit/<%= user._id %>">แก้ไขข้อมูลส่วนตัว</a>
+                    <% } %>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+    <a class="nav-link cute-link dropdown-toggle"
+       href="javascript:void(0);"
+       data-toggle="dropdown"
+       role="button"
+       aria-haspopup="true"
+       aria-expanded="false">
+        รายงาน (REPORTS)
+    </a>
+    <div class="dropdown-menu cute-dropdown">
+        <a class="dropdown-item" href="/reports/sales">รายงานยอดขาย</a>
+        <a class="dropdown-item" href="/reports/products">รายงานสินค้า</a>
+        <a class="dropdown-item" href="/reports/members">รายงานสมาชิก</a>
+    </div>
+</li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link cute-link dropdown-toggle"
+                   href="javascript:void(0);"
+                   data-toggle="dropdown"
+                   role="button"
+                   aria-haspopup="true"
+                   aria-expanded="false">
+                    เข้าสู่ระบบ (LOGIN)
+                </a>
+                <div class="dropdown-menu cute-dropdown">
+                    <% if (!user) { %>
+                        <a class="dropdown-item" href="/login">Login</a>
+                    <% } %>
+
+                    <% if (user) { %>
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    <% } %>
+                </div>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+            <% if (user) { %>
+                <li class="nav-item">
+                    <span class="nav-link cute-user">
+                        🫶 <%= user.name %>
+                    </span>
+                </li>
+            <% } %>
+        </ul>
+    </div>
+</nav>
+
+<style>
+    .cute-navbar {
+        background: linear-gradient(135deg, #ffdce8, #e7f4ff, #fff2df);
+        box-shadow: 0 8px 24px rgba(203, 173, 189, 0.18);
+        padding: 10px 18px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+        position: relative;
+        z-index: 9999;
+    }
+
+    .cute-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .brand-logo {
+        height: 52px;
+        width: auto;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.55);
+        padding: 4px;
+        box-shadow: 0 4px 12px rgba(189, 164, 176, 0.18);
+    }
+
+    .cute-link {
+        color: #7f5b71 !important;
+        font-weight: bold;
+        padding: 10px 14px !important;
+        border-radius: 999px;
+        transition: all 0.25s ease;
+        margin-right: 6px;
+    }
+
+    .cute-link:hover,
+    .cute-link:focus {
+        background: rgba(255, 255, 255, 0.65);
+        color: #ff8cad !important;
+        text-decoration: none;
+        transform: translateY(-1px);
+    }
+
+    .cute-user {
+        color: #5f7898 !important;
+        font-weight: bold;
+        background: rgba(255,255,255,0.65);
+        border-radius: 999px;
+        padding: 10px 16px !important;
+        box-shadow: 0 4px 12px rgba(183, 203, 226, 0.18);
+    }
+
+    .cute-dropdown {
+        border: none;
+        border-radius: 18px;
+        padding: 10px;
+        background: rgba(255, 252, 253, 0.98);
+        box-shadow: 0 14px 28px rgba(207, 172, 190, 0.18);
+        overflow: hidden;
+        margin-top: 10px;
+        position: absolute;
+        z-index: 10000;
+    }
+
+    .cute-dropdown .dropdown-item {
+        color: #7f5b71;
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .cute-dropdown .dropdown-item:hover {
+        background: linear-gradient(135deg, #ffe1ec, #e7f4ff);
+        color: #ff89aa;
+    }
+
+    .navbar-toggler {
+        border: none;
+        background: rgba(255,255,255,0.6);
+        border-radius: 12px;
+        padding: 6px 10px;
+    }
+
+    .navbar-toggler:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(173, 216, 230, 0.22);
+    }
+
+    @media (max-width: 767px) {
+        .cute-link {
+            margin-bottom: 6px;
+        }
+
+        .cute-user {
+            display: inline-block;
+            margin-top: 10px;
+        }
+    }
+</style>

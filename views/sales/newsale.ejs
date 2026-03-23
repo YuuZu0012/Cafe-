@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Sale</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.4.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/all.css">
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #fff7fb 0%, #fffdf9 100%);
+            font-family: Arial, sans-serif;
+            color: #6f5863;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at top left, rgba(255, 214, 230, 0.35), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(220, 240, 255, 0.28), transparent 30%);
+            z-index: -1;
+        }
+
+        .sale-page {
+            padding: 35px 0 50px;
+        }
+
+        .sale-card {
+            background: rgba(255, 255, 255, 0.96);
+            border: none;
+            border-radius: 32px;
+            box-shadow: 0 18px 35px rgba(210, 170, 188, 0.18);
+            overflow: hidden;
+        }
+
+        .sale-header {
+            background: linear-gradient(135deg, #ffdce8, #e7f4ff, #fff0df);
+            padding: 26px 30px;
+            text-align: center;
+        }
+
+        .sale-header h1 {
+            margin: 0;
+            color: #7f5b71;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .sale-header p {
+            margin: 8px 0 0;
+            color: #9a7283;
+        }
+
+        .sale-body {
+            padding: 30px 28px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #8a6275;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        select,
+        input[type="number"] {
+            width: 100%;
+            border-radius: 18px;
+            border: 1px solid #f5cfdb;
+            background: #fffafd;
+            padding: 12px 16px;
+            box-shadow: inset 0 2px 6px rgba(255, 222, 232, 0.14);
+            transition: all 0.25s ease;
+        }
+
+        select:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #ffbfd0;
+            box-shadow: 0 0 0 4px rgba(255, 182, 193, 0.18);
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #ffb6c9, #ffc9a9);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 999px;
+            padding: 12px 26px;
+            box-shadow: 0 10px 20px rgba(255, 182, 193, 0.22);
+            transition: all 0.25s ease;
+            width: 100%;
+        }
+
+        .add-btn:hover {
+            background: linear-gradient(135deg, #ffa8c0, #ffba91);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .summary-box {
+            margin-top: 24px;
+            background: linear-gradient(135deg, #fff3f8, #eef8ff);
+            border: 1px solid #f6d4df;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: inset 0 2px 8px rgba(255, 230, 238, 0.18);
+        }
+
+        .summary-title {
+            font-weight: bold;
+            color: #7f5b71;
+            margin-bottom: 14px;
+            font-size: 1.1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 10px 0;
+            border-bottom: 1px dashed #f4cddb;
+            color: #785f6a;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-value {
+            font-weight: bold;
+            color: #5f7898;
+            text-align: right;
+        }
+
+        .cart-table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 18px;
+            background: white;
+        }
+
+        .cart-table th,
+        .cart-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #f7dbe4;
+        }
+
+        .cart-table th {
+            background: linear-gradient(135deg, #ffe1ec, #eaf6ff);
+            color: #7f5b71;
+        }
+
+        .remove-btn {
+            background: linear-gradient(135deg, #ff9eb5, #ffb7a3);
+            border: none;
+            color: white;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover {
+            opacity: 0.9;
+        }
+
+        .total-row {
+            margin-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #7f5b71;
+            font-size: 1.1rem;
+        }
+
+        .total-price {
+            color: #ff84a5;
+            font-size: 1.4rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ffb6c9, #ffc9a9);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 999px;
+            padding: 12px 26px;
+            box-shadow: 0 10px 20px rgba(255, 182, 193, 0.22);
+            transition: all 0.25s ease;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #ffa8c0, #ffba91);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-left: 10px;
+            background: linear-gradient(135deg, #b8e3ff, #d6f3ff);
+            color: #5f7898;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 999px;
+            padding: 12px 22px;
+            box-shadow: 0 10px 20px rgba(184, 227, 255, 0.22);
+            transition: all 0.25s ease;
+        }
+
+        .back-btn:hover {
+            text-decoration: none;
+            color: #476885;
+            transform: translateY(-2px);
+        }
+
+        .cute-note {
+            margin-top: 18px;
+            padding: 12px 16px;
+            border-radius: 18px;
+            background: #fff6fa;
+            color: #a06e82;
+            border-left: 4px solid #ffbfd0;
+            font-size: 14px;
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #9a7283;
+            padding: 18px 0;
+        }
+
+        @media (max-width: 768px) {
+            .sale-body {
+                padding: 24px 18px;
+            }
+
+            .back-btn {
+                display: inline-block;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .cart-table {
+                font-size: 14px;
+            }
+
+            .summary-item,
+            .total-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .summary-value,
+            .total-price {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('../navbar.ejs') %>
+
+    <div class="container sale-page">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <div class="sale-card">
+                    <div class="sale-header">
+                        <h1>🧾 เพิ่มรายการขายหลายเมนู</h1>
+                        <p>เลือกสมาชิก เพิ่มหลายเมนูลงตะกร้า ใส่ส่วนลด แล้วค่อยบันทึกทีเดียว</p>
+                    </div>
+
+                    <div class="sale-body">
+                        <form action="/payment" method="POST" id="saleForm">
+                            <div class="form-group">
+                                <label>สมาชิก</label>
+                                <select name="member" id="memberSelect" required>
+                                    <% members.forEach(member => { %>
+                                        <option value="<%= member._id %>"><%= member.name %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>เมนูสินค้า</label>
+                                        <select id="productSelect">
+                                            <% products.forEach(product => { %>
+                                                <option value="<%= product._id %>"
+                                                        data-name="<%= product.name %>"
+                                                        data-price="<%= product.price %>">
+                                                    <%= product.name %> - ฿<%= product.price %>
+                                                </option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>จำนวน</label>
+                                        <input type="number" id="quantityInput" min="1" value="1">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 d-flex align-items-end">
+                                    <div class="form-group w-100">
+                                        <button type="button" class="add-btn" id="addToCartBtn">+ เพิ่มลงรายการ</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>ประเภทส่วนลด</label>
+                                        <select name="discountType" id="discountType">
+                                            <option value="none">ไม่มีส่วนลด</option>
+                                            <option value="percent">ส่วนลด %</option>
+                                            <option value="fixed">ส่วนลดเป็นบาท</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>มูลค่าส่วนลด</label>
+                                        <input type="number" name="discountValue" id="discountValue" min="0" value="0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="summary-box">
+                                <div class="summary-title">รายการที่เลือก</div>
+
+                                <div id="cartContainer">
+                                    <div class="empty-cart">ยังไม่มีเมนูในรายการ</div>
+                                </div>
+
+                                <div class="summary-item">
+                                    <span>ยอดก่อนลด</span>
+                                    <span class="summary-value" id="subtotalText">฿ 0</span>
+                                </div>
+
+                                <div class="summary-item">
+                                    <span>ส่วนลด</span>
+                                    <span class="summary-value" id="discountText">฿ 0</span>
+                                </div>
+
+                                <div class="total-row">
+                                    <span>ยอดสุทธิทั้งหมด</span>
+                                    <span class="total-price" id="grandTotal">฿ 0</span>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="cartData" id="cartData">
+
+                            <div class="cute-note">
+                                ✨ กดเพิ่มเมนูได้หลายครั้ง ระบบจะรวมเป็นรายการขายเดียวกันก่อนบันทึก และคำนวณส่วนลดให้อัตโนมัติ
+                            </div>
+
+                            <div class="form-group mt-4">
+                                <button type="submit" class="submit-btn">ยืนยันการชำระเงิน</button>
+                                <a href="/" class="back-btn">กลับหน้าแรก</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const productSelect = document.getElementById("productSelect");
+        const quantityInput = document.getElementById("quantityInput");
+        const addToCartBtn = document.getElementById("addToCartBtn");
+        const cartContainer = document.getElementById("cartContainer");
+        const grandTotal = document.getElementById("grandTotal");
+        const cartDataInput = document.getElementById("cartData");
+        const saleForm = document.getElementById("saleForm");
+        const discountType = document.getElementById("discountType");
+        const discountValue = document.getElementById("discountValue");
+        const subtotalText = document.getElementById("subtotalText");
+        const discountText = document.getElementById("discountText");
+
+        let cart = [];
+
+        function renderCart() {
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<div class="empty-cart">ยังไม่มีเมนูในรายการ</div>';
+                subtotalText.textContent = '฿ 0';
+                discountText.textContent = '฿ 0';
+                grandTotal.textContent = '฿ 0';
+                cartDataInput.value = '';
+                return;
+            }
+
+            let total = 0;
+
+            let html = `
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>เมนู</th>
+                            <th>ราคาต่อชิ้น</th>
+                            <th>จำนวน</th>
+                            <th>รวม</th>
+                            <th>ลบ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                html += `
+                    <tr>
+                        <td>${item.productName}</td>
+                        <td>฿ ${Number(item.price).toLocaleString()}</td>
+                        <td>${item.quantity}</td>
+                        <td>฿ ${Number(itemTotal).toLocaleString()}</td>
+                        <td>
+                            <button type="button" class="remove-btn" onclick="removeItem(${index})">ลบ</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+
+            let subtotal = total;
+            let discount = 0;
+
+            if (discountType.value === "percent") {
+                discount = subtotal * (Number(discountValue.value || 0) / 100);
+            } else if (discountType.value === "fixed") {
+                discount = Number(discountValue.value || 0);
+            }
+
+            if (discount > subtotal) {
+                discount = subtotal;
+            }
+
+            const finalTotal = subtotal - discount;
+
+            cartContainer.innerHTML = html;
+            subtotalText.textContent = '฿ ' + subtotal.toLocaleString();
+            discountText.textContent = '฿ ' + discount.toLocaleString();
+            grandTotal.textContent = '฿ ' + finalTotal.toLocaleString();
+            cartDataInput.value = JSON.stringify(cart);
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        addToCartBtn.addEventListener("click", function () {
+            const selectedProduct = productSelect.options[productSelect.selectedIndex];
+            const productId = selectedProduct.value;
+            const productName = selectedProduct.dataset.name;
+            const price = Number(selectedProduct.dataset.price);
+            const quantity = Number(quantityInput.value);
+
+            if (!productId || quantity < 1) {
+                alert("กรุณาเลือกสินค้าและจำนวนให้ถูกต้อง");
+                return;
+            }
+
+            cart.push({
+                productId,
+                productName,
+                price,
+                quantity
+            });
+
+            renderCart();
+            quantityInput.value = 1;
+        });
+
+        saleForm.addEventListener("submit", function (e) {
+            if (cart.length === 0) {
+                e.preventDefault();
+                alert("กรุณาเพิ่มสินค้าอย่างน้อย 1 รายการ");
+            }
+        });
+
+        discountType.addEventListener("change", renderCart);
+        discountValue.addEventListener("input", renderCart);
+
+        renderCart();
+    </script>
+</body>
+</html>

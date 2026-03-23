@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.4.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/all.css">
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #fffaf5 0%, #fffdf9 45%, #fff7f1 100%);
+            font-family: Arial, sans-serif;
+            color: #6f584c;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at top left, rgba(255, 228, 196, 0.35), transparent 26%),
+                radial-gradient(circle at top right, rgba(255, 218, 185, 0.25), transparent 24%),
+                radial-gradient(circle at bottom left, rgba(255, 240, 220, 0.28), transparent 24%);
+            z-index: -2;
+        }
+
+        .floating-sweets {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .sweet {
+            position: absolute;
+            font-size: 26px;
+            opacity: 0.18;
+            animation: floaty 7s ease-in-out infinite;
+        }
+
+        .sweet.s1 { top: 80px; left: 6%; animation-delay: 0s; }
+        .sweet.s2 { top: 180px; right: 10%; animation-delay: 1.5s; }
+        .sweet.s3 { bottom: 120px; left: 12%; animation-delay: 3s; }
+        .sweet.s4 { bottom: 80px; right: 8%; animation-delay: 4.5s; }
+
+        @keyframes floaty {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            50% { transform: translateY(-12px) rotate(6deg) scale(1.05); }
+        }
+
+        .wrap {
+            max-width: 1080px;
+            margin: 34px auto;
+            padding: 0 16px 40px;
+        }
+
+        .hero-box {
+            background: linear-gradient(135deg, rgba(255, 247, 239, 0.96), rgba(255, 240, 228, 0.96), rgba(255, 250, 245, 0.96));
+            border-radius: 34px;
+            padding: 30px 24px;
+            text-align: center;
+            box-shadow: 0 18px 34px rgba(213, 179, 150, 0.18);
+            margin-bottom: 24px;
+            border: 1px solid rgba(245, 222, 200, 0.8);
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.7s ease;
+        }
+
+        .hero-box::after {
+            content: "fresh cookies";
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            background: rgba(255, 255, 255, 0.7);
+            color: #b98867;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 0.4px;
+            animation: pulseTag 2.4s ease-in-out infinite;
+        }
+
+        @keyframes pulseTag {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-title {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #8a624e;
+        }
+
+        .hero-subtitle {
+            margin: 10px 0 0;
+            color: #a37b67;
+        }
+
+        .card-box {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: 0 14px 30px rgba(214, 182, 155, 0.16);
+            margin-bottom: 22px;
+            border: 1px solid rgba(246, 228, 212, 0.85);
+            animation: fadeUp 0.8s ease;
+        }
+
+        .section-title {
+            color: #8a624e;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #fff8f2, #fff3ea);
+            border: 1px solid #f6e1d1;
+            border-radius: 24px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: inset 0 2px 8px rgba(255, 241, 230, 0.45);
+            transition: 0.25s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            top: -24px;
+            right: -24px;
+            background: radial-gradient(circle, rgba(255,255,255,0.7), transparent 70%);
+            border-radius: 50%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 12px 22px rgba(214, 182, 155, 0.14);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            animation: bounceTiny 2.2s ease-in-out infinite;
+        }
+
+        @keyframes bounceTiny {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        .stat-label {
+            color: #a17a67;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .stat {
+            font-size: 1.45rem;
+            font-weight: bold;
+            color: #7b5847;
+        }
+
+        .stat-percent {
+            margin-top: 6px;
+            color: #b1836d;
+            font-size: 0.95rem;
+            font-weight: bold;
+            background: rgba(255,255,255,0.6);
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 999px;
+        }
+
+        .chart-box {
+            background: linear-gradient(135deg, #fffefc, #fff8f3);
+            border-radius: 24px;
+            padding: 18px;
+            border: 1px dashed #eed7c3;
+        }
+
+        .chart-title {
+            color: #8a624e;
+            font-weight: bold;
+            margin-bottom: 14px;
+        }
+
+        .note-box {
+            margin-top: 18px;
+            padding: 14px 16px;
+            background: linear-gradient(135deg, #fff4ea, #fffaf5);
+            border-left: 5px solid #e2b18e;
+            border-radius: 18px;
+            color: #9a735f;
+            font-size: 14px;
+        }
+
+        .legend-cute {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .legend-pill {
+            background: rgba(255,255,255,0.75);
+            border: 1px solid #f0dfd1;
+            border-radius: 999px;
+            padding: 8px 12px;
+            color: #8a624e;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-sweets">
+        <div class="sweet s1">🍪</div>
+        <div class="sweet s2">🧁</div>
+        <div class="sweet s3">🍩</div>
+        <div class="sweet s4">🍰</div>
+    </div>
+
+    <%- include('../navbar.ejs') %>
+
+    <div class="wrap">
+        <div class="hero-box">
+            <h1 class="hero-title">🍪 รายงานจำนวนสมาชิก</h1>
+            <p class="hero-subtitle">สรุปจำนวนลูกค้า พนักงาน และแอดมิน ในโทนขนมหวานละมุน ๆ</p>
+        </div>
+
+        <div class="card-box">
+            <h2 class="section-title">สถิติสมาชิกในระบบ</h2>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">🧁</div>
+                        <div class="stat-label">ลูกค้า</div>
+                        <div class="stat"><%= customers %></div>
+                        <div class="stat-percent" id="customerPercent">0%</div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">🍩</div>
+                        <div class="stat-label">พนักงาน</div>
+                        <div class="stat"><%= employees %></div>
+                        <div class="stat-percent" id="employeePercent">0%</div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">🎂</div>
+                        <div class="stat-label">แอดมิน</div>
+                        <div class="stat"><%= admins %></div>
+                        <div class="stat-percent" id="adminPercent">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-box">
+            <div class="chart-box">
+                <h4 class="chart-title">กราฟสัดส่วนสมาชิก</h4>
+                <canvas id="memberChart"></canvas>
+
+                <div class="legend-cute">
+                    <div class="legend-pill">🧁 ลูกค้า <span id="legendCustomer">0%</span></div>
+                    <div class="legend-pill">🍩 พนักงาน <span id="legendEmployee">0%</span></div>
+                    <div class="legend-pill">🎂 แอดมิน <span id="legendAdmin">0%</span></div>
+                </div>
+            </div>
+
+            <div class="note-box">
+                ✨ หน้านี้ช่วยให้เห็นภาพรวมจำนวนผู้ใช้งานในระบบ ว่ามีกลุ่มลูกค้า พนักงาน และแอดมินเท่าไรแบบดูง่ายและน่ารักขึ้น
+            </div>
+        </div>
+    </div>
+
+    <script id="member-labels" type="application/json">["Customer","Employee","Admin"]</script>
+    <script id="member-values" type="application/json"><%- JSON.stringify([customers || 0, employees || 0, admins || 0]) %></script>
+
+    <script>
+        const memberLabels = JSON.parse(document.getElementById('member-labels').textContent);
+        const memberValues = JSON.parse(document.getElementById('member-values').textContent);
+
+        const totalMembers = memberValues.reduce((sum, value) => sum + value, 0);
+
+        function getPercent(value) {
+            if (!totalMembers) return "0%";
+            return ((value / totalMembers) * 100).toFixed(1) + "%";
+        }
+
+        document.getElementById("customerPercent").textContent = getPercent(memberValues[0]);
+        document.getElementById("employeePercent").textContent = getPercent(memberValues[1]);
+        document.getElementById("adminPercent").textContent = getPercent(memberValues[2]);
+
+        document.getElementById("legendCustomer").textContent = getPercent(memberValues[0]);
+        document.getElementById("legendEmployee").textContent = getPercent(memberValues[1]);
+        document.getElementById("legendAdmin").textContent = getPercent(memberValues[2]);
+
+        const memberCtx = document.getElementById('memberChart');
+
+        new Chart(memberCtx, {
+            type: 'pie',
+            data: {
+                labels: memberLabels,
+                datasets: [{
+                    data: memberValues,
+                    backgroundColor: [
+                        '#f7c9a9',
+                        '#f5deb3',
+                        '#e8bfa7'
+                    ],
+                    borderColor: '#fffaf5',
+                    borderWidth: 3,
+                    hoverOffset: 16
+                }]
+            },
+            options: {
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 1600
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw || 0;
+                                const percent = getPercent(value);
+                                return `${context.label}: ${value} คน (${percent})`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

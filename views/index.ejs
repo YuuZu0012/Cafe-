@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+
+    <link rel="stylesheet" href="/css/all.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <script src="/js/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="/js/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #fff7fb 0%, #fffdf9 100%);
+            color: #6d5660;
+            font-family: Arial, sans-serif;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at top left, rgba(255, 214, 230, 0.35), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(255, 235, 214, 0.30), transparent 30%);
+            z-index: -1;
+        }
+
+        .hero-box {
+            background: linear-gradient(135deg, rgba(255, 240, 246, 0.95), rgba(255, 248, 240, 0.95));
+            border-radius: 30px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(215, 171, 187, 0.18);
+            margin-bottom: 30px;
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #7c5266;
+            margin-bottom: 10px;
+        }
+
+        .hero-subtitle {
+            color: #a06f82;
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+        .search-form {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 22px;
+            border-radius: 24px;
+            box-shadow: 0 12px 28px rgba(219, 179, 194, 0.16);
+            margin-bottom: 28px;
+            border: 1px solid #fde3ec;
+        }
+
+        .search-form input {
+            border-radius: 999px;
+            padding: 12px 16px;
+            border: 1px solid #f7cfdb;
+            background-color: #fffafd;
+            box-shadow: inset 0 2px 6px rgba(255, 220, 230, 0.12);
+        }
+
+        .search-form input:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255, 182, 193, 0.18);
+            border-color: #ffbfd0;
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, #ffb6c9, #ffc9a9);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 20px;
+            font-weight: bold;
+            box-shadow: 0 8px 18px rgba(255, 182, 193, 0.25);
+            transition: all 0.25s ease;
+        }
+
+        .btn-search:hover {
+            background: linear-gradient(135deg, #ffa8c0, #ffba91);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            text-align: center;
+            color: #8a5c70;
+            font-weight: bold;
+            margin: 20px 0 24px;
+        }
+
+        .product-card {
+            border: none;
+            border-radius: 24px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 12px 28px rgba(208, 165, 182, 0.16);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 18px 36px rgba(208, 165, 182, 0.22);
+        }
+
+        .image-wrap {
+            background: linear-gradient(135deg, #ffe5ef, #fff1e6);
+            padding: 16px;
+        }
+
+        .card-img-top {
+            height: 220px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 8px 18px rgba(200, 158, 176, 0.18);
+        }
+
+        .card-body {
+            text-align: center;
+            padding: 22px 18px;
+        }
+
+        .card-title a {
+            color: #7c5266;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .card-title a:hover {
+            color: #ff89aa;
+            text-decoration: none;
+        }
+
+        .price-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd9e8, #ffe8d9);
+            color: #a26479;
+            border-radius: 999px;
+            padding: 7px 14px;
+            font-weight: bold;
+            margin: 10px 0 12px;
+            font-size: 0.95rem;
+        }
+
+        .card-text.desc {
+            color: #7a6666;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            min-height: 72px;
+        }
+
+        .view-btn {
+            display: inline-block;
+            margin-top: 8px;
+            background: linear-gradient(135deg, #ffb6c9, #ffc9a9);
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-weight: bold;
+            transition: 0.25s ease;
+            box-shadow: 0 8px 18px rgba(255, 182, 193, 0.22);
+        }
+
+        .view-btn:hover {
+            color: white;
+            text-decoration: none;
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #ffa8c0, #ffba91);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .card-img-top {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('navbar.ejs') %>
+
+    <div class="container mt-4 mb-5">
+        <div class="hero-box">
+            <h1 class="hero-title">☕ Sweet Cafe Shop</h1>
+            <p class="hero-subtitle">ขนมหวาน เครื่องดื่ม และเมนูนุ่มนิ่มน่ารัก พร้อมเสิร์ฟความละมุนทุกวัน</p>
+        </div>
+
+        <!-- ฟอร์มค้นหาสินค้า -->
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <form action="/search" method="GET" class="search-form">
+                    <div class="row align-items-center">
+                        <div class="col-md-4 mb-2 mb-md-0">
+                            <input type="number" class="form-control" name="min" placeholder="ราคาต่ำสุด">
+                        </div>
+                        <div class="col-md-4 mb-2 mb-md-0">
+                            <input type="number" class="form-control" name="max" placeholder="ราคาสูงสุด">
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <button type="submit" class="btn btn-search w-100">
+                                <i class="fas fa-search"></i> ค้นหาเมนู
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <h2 class="section-title">🍰 เมนูแนะนำของร้าน</h2>
+
+        <!-- แสดงรายการสินค้า -->
+        <div class="row mt-3">
+            <% Object.values(products).forEach(function(item){ %>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card product-card">
+                        <div class="image-wrap">
+                            <a href="/<%= item._id %>">
+                                <img class="card-img-top"
+                                     src="<%= item.image.startsWith('http') ? item.image : '/images/products/' + item.image %>"
+                                      alt="<%= item.name %>">
+                            </a>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="/<%= item._id %>">
+                                    <%= item.name %>
+                                </a>
+                            </h5>
+
+                            <div class="price-tag">
+                                ฿ <%= item.price %>
+                            </div>
+
+                            <p class="card-text desc">
+                                <%= item.description %>
+                            </p>
+
+                            <a href="/<%= item._id %>" class="view-btn">
+                                ดูรายละเอียด
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</body>
+
+</html>
